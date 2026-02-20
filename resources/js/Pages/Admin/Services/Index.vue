@@ -1,12 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({ services: Object });
 
 function destroy(id) {
     if (confirm('Delete this service?')) {
-        router.delete('/admin/services/' + id, { preserveScroll: true });
+        useForm({ _method: 'DELETE' }).post('/admin/services/' + id);
     }
 }
 
@@ -89,13 +89,6 @@ const categoryColors = {
                     </tr>
                 </tbody>
             </table>
-
-            <div v-if="services.last_page > 1" class="px-5 py-4 border-t border-[#E0DBD3] flex gap-2">
-                <Link v-for="link in services.links" :key="link.label"
-                    :href="link.url || '#'" v-html="link.label"
-                    :class="link.active ? 'bg-[#1A1A1A] text-white' : 'text-[#666] hover:text-[#1A1A1A]'"
-                    class="text-xs px-3 py-1.5 border border-[#E0DBD3] transition-colors" />
-            </div>
         </div>
     </AdminLayout>
 </template>

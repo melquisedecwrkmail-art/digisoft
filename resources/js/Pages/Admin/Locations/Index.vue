@@ -1,14 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({ locations: Object });
 
 function destroy(id) {
     if (confirm('Delete this location?')) {
-        router.delete('/admin/locations/' + id, {
-            preserveScroll: true,
-        });
+        useForm({ _method: 'DELETE' }).post('/admin/locations/' + id);
     }
 }
 </script>

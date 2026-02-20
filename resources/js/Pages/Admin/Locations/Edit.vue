@@ -13,7 +13,7 @@ const form = useForm({
 });
 
 function submit() {
-    form.post('/admin/locations/' + props.location.id);
+    form.transform(data => ({ ...data, _method: 'PUT' })).post('/admin/locations/' + props.location.id, { forceFormData: true });
 }
 </script>
 

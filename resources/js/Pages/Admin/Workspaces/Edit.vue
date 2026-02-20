@@ -19,7 +19,7 @@ const form = useForm({
 });
 
 function submit() {
-    form.post('/admin/workspaces/' + props.workspace.id);
+    form.transform(data => ({ ...data, _method: 'PUT' })).post('/admin/workspaces/' + props.workspace.id, { forceFormData: true });
 }
 </script>
 

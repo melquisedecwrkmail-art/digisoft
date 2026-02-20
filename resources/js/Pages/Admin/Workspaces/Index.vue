@@ -1,12 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({ workspaces: Object });
 
 function destroy(id) {
     if (confirm('Delete this workspace?')) {
-        router.delete('/admin/workspaces/' + id, { preserveScroll: true });
+        useForm({ _method: 'DELETE' }).post('/admin/workspaces/' + id);
     }
 }
 
@@ -55,7 +55,7 @@ const typeColors = {
                         <td class="px-5 py-4 text-[#666]">{{ ws.location?.name }}</td>
                         <td class="px-5 py-4">
                             <span :class="typeColors[ws.type]"
-                                class="text-[10px] tracking-widest uppercase px-2.5 py-1 capitalize">
+                                class="text-[10px] tracking-widest uppercase px-2.5 py-1">
                                 {{ ws.type }}
                             </span>
                         </td>
@@ -87,13 +87,6 @@ const typeColors = {
                     </tr>
                 </tbody>
             </table>
-
-            <div v-if="workspaces.last_page > 1" class="px-5 py-4 border-t border-[#E0DBD3] flex gap-2">
-                <Link v-for="link in workspaces.links" :key="link.label"
-                    :href="link.url || '#'" v-html="link.label"
-                    :class="link.active ? 'bg-[#1A1A1A] text-white' : 'text-[#666] hover:text-[#1A1A1A]'"
-                    class="text-xs px-3 py-1.5 border border-[#E0DBD3] transition-colors" />
-            </div>
         </div>
     </AdminLayout>
 </template>

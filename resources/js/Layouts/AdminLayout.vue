@@ -1,17 +1,17 @@
 <script setup>
 import { ref } from 'vue';
-import { Link, usePage, router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
-const page = usePage();
 const sidebarOpen = ref(false);
 
 const navItems = [
-    { label: 'Dashboard',  href: '/admin/dashboard',   icon: '◎' },
-    { label: 'Locations',  href: '/admin/locations',   icon: '◈' },
-    { label: 'Workspaces', href: '/admin/workspaces',  icon: '◻' },
-    { label: 'Bookings',   href: '/admin/bookings',    icon: '⬡' },
-    { label: 'Services',   href: '/admin/services',    icon: '◇' },
-    { label: 'Users',      href: '/admin/users',       icon: '⊕' },
+    { label: 'Dashboard',        href: '/admin/dashboard',         icon: '◎' },
+    { label: 'Locations',        href: '/admin/locations',         icon: '◈' },
+    { label: 'Workspaces',       href: '/admin/workspaces',        icon: '◻' },
+    { label: 'Bookings',         href: '/admin/bookings',          icon: '⬡' },
+    { label: 'Services',         href: '/admin/services',          icon: '◇' },
+    { label: 'Service Requests', href: '/admin/service-requests',  icon: '◆' },
+    { label: 'Users',            href: '/admin/users',             icon: '⊕' },
 ];
 
 function logout() {
@@ -22,7 +22,6 @@ function logout() {
 <template>
     <div class="min-h-screen bg-[#F5F2EE] flex" style="font-family: 'Georgia', serif;">
 
-        <!-- Sidebar -->
         <aside class="w-56 bg-[#1A1A1A] text-white flex flex-col fixed h-full z-40 hidden md:flex">
             <div class="px-6 py-5 border-b border-[#2A2A2A]">
                 <Link href="/" class="flex items-center gap-2">
@@ -34,7 +33,7 @@ function logout() {
                 <p class="text-[10px] text-[#666] mt-1 tracking-wider uppercase">Admin Panel</p>
             </div>
 
-            <nav class="flex-1 py-4">
+            <nav class="flex-1 py-4 overflow-y-auto">
                 <Link
                     v-for="item in navItems"
                     :key="item.href"
@@ -54,27 +53,21 @@ function logout() {
             </div>
         </aside>
 
-        <!-- Main Content -->
         <div class="flex-1 md:ml-56">
-            <!-- Top Bar -->
             <header class="bg-white border-b border-[#E0DBD3] h-14 flex items-center justify-between px-6 sticky top-0 z-30">
                 <div>
                     <slot name="header" />
                 </div>
-                <div class="flex items-center gap-3">
-                    <Link href="/" class="text-xs text-[#888] hover:text-[#1A1A1A] transition-colors">
-                        ← View Site
-                    </Link>
-                </div>
+                <Link href="/" class="text-xs text-[#888] hover:text-[#1A1A1A] transition-colors">
+                    ← View Site
+                </Link>
             </header>
 
-            <!-- Flash Messages -->
             <div v-if="$page.props.flash?.success"
                 class="mx-6 mt-4 bg-[#2D6A4F]/10 border border-[#2D6A4F]/30 text-[#2D6A4F] text-sm px-4 py-3">
                 ✓ {{ $page.props.flash.success }}
             </div>
 
-            <!-- Page Content -->
             <main class="p-6">
                 <slot />
             </main>
