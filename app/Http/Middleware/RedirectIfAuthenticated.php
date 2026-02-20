@@ -1,0 +1,32 @@
+cat > app/Http/Middleware/RedirectIfAuthenticated.php << 'EOF'
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+
+class RedirectIfAuthenticated
+{
+    public function handle(Request $request, Closure $next, string ...$guards): Response
+    {
+        $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                $user = $request->user();
+
+                return match($user->role) {
+                    'admin', 'staff' => redirect()->route('admin.dashboard'),
+                    default          => redirect()->route('client.dashboard'),
+                };
+            }
+        }
+
+        return $next($request);
+    }
+}
+EOF
+
